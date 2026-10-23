@@ -1,0 +1,13 @@
+{
+  "id": "e08",
+  "slug": "sku-image-composer",
+  "name": "SKU 规格图拼图加水印",
+  "version": "0.1.0",
+  "repo": "campfire-code/sku-image-composer",
+  "license": "MIT",
+  "ui": {
+    "layout": "d",
+    "palette": "violet"
+  },
+  "upstream": null
+}
