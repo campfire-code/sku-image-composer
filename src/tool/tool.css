@@ -1,0 +1,26 @@
+/* SKU 规格图拼图加水印：类名统一以 sc- 开头，只用 kit.css 的变量 */
+.sc-empty { display: flex; flex-direction: column; gap: 22px; padding: 26px 24px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+.sc-empty-hd h2 { margin: 0 0 6px; font-size: 1.4em; line-height: 1.3; color: var(--ink); }
+.sc-empty-hd p { margin: 0; color: var(--muted); line-height: 1.6; }
+.sc-flow { display: flex; align-items: center; justify-content: center; gap: 26px; flex-wrap: wrap; }
+.sc-arrow { color: var(--primary); flex: none; }
+.sc-pile { position: relative; width: 120px; height: 120px; }
+.sc-card { position: absolute; left: calc(var(--i) * 16px); top: calc(var(--i) * 10px); width: 64px; height: 64px; border-radius: 8px; border: 3px solid var(--surface); box-shadow: 0 4px 12px rgb(0 0 0 / .18); transform: rotate(calc(var(--i) * 5deg - 8deg)); }
+.sc-sheet { position: relative; padding: 12px 14px 32px; background: var(--chip); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 8px 20px rgb(0 0 0 / .1); overflow: hidden; }
+.sc-sheet-title { display: block; margin-bottom: 8px; font-size: 13px; color: var(--ink); }
+.sc-grid { display: grid; grid-template-columns: repeat(3, 56px); gap: 8px 10px; }
+.sc-slot { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.sc-slot i { display: block; width: 56px; height: 56px; border-radius: 4px; }
+.sc-slot small { font-size: 12.5px; color: var(--ink); }
+.sc-mark { position: absolute; right: 12px; bottom: 7px; font-size: 14px; font-weight: 700; color: var(--primary); opacity: .55; }
+
+.sc-cell { margin: 0; display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.sc-cell-box { position: relative; aspect-ratio: 1; display: flex; flex-direction: column; padding: 8%; gap: 4%; overflow: hidden; border-radius: 6px; box-shadow: 0 0 0 1px var(--line-strong); }
+.sc-cell-img { flex: 1; min-height: 0; display: block; }
+.sc-cell-img img { display: block; width: 100%; height: 100%; }
+.sc-cell-cap { flex: none; text-align: center; font-size: 13px; font-weight: 600; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sc-cell-mark { position: absolute; font-size: 14px; font-weight: 700; white-space: nowrap; color: #888; }
+.sc-cell-tile { position: absolute; inset: -20%; display: grid; grid-template-columns: repeat(2, 1fr); align-content: space-around; justify-items: center; transform: rotate(-24deg); pointer-events: none; }
+.sc-cell-tile i { font-style: normal; font-size: 14px; font-weight: 700; color: #888; white-space: nowrap; }
+.sc-cell figcaption { display: flex; flex-direction: column; gap: 1px; font-size: 13px; }
+.sc-plain { margin: 0; color: var(--muted); }

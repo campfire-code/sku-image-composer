@@ -3,6 +3,7 @@ import type { Params } from '../kit/types';
 import type { Row } from '../kit/runner';
 import { layoutFor, readOptions } from './flow';
 import { drawSheet } from './render';
+import type { CellData } from './ui';
 import { SAMPLE_WATERMARK, SWATCHES } from './sample';
 
 function swatchCanvas(rgb: [number, number, number], round = false) {
@@ -28,6 +29,8 @@ function realSheet() {
 
 const NAMES = [...SWATCHES.map((s, i) => `示例-色卡-${String(i + 1).padStart(2, '0')}${s.name}.png`), '示例-规格图-1S码.png', '示例-规格图-2M码.png', '示例-规格图-3L码.png'];
 
+const cell = (_name: string, i: number): CellData => ({ w: i < 6 ? 600 : 900, h: 600, fit: 'cover', caption: true, bg: '#FFFFFF', wm: 'text', wmText: SAMPLE_WATERMARK, wmPosition: 'tile', wmOpacity: 30 });
+
 export const rows = (state: string): Row[] => {
   if (state === 'empty') return [];
   return NAMES.map((name, i) => {
@@ -37,10 +40,10 @@ export const rows = (state: string): Row[] => {
       item: { id: `s${i}`, name, path: swatch(rgb, i >= 6), size: 180_000 + i * 21_000 },
       status,
       progress: status === 'run' ? 0.5 : status === 'ok' ? 1 : 0,
-      result: status === 'ok' ? { preview: i === 0 ? realSheet() : swatch(rgb, i >= 6), summary: i < 6 ? '600×600，等待拼图' : '900×600，等待拼图' } : undefined,
+      result: status === 'ok' ? { preview: i === 0 ? realSheet() : swatch(rgb, i >= 6), summary: i < 6 ? '600×600，等待拼图' : '900×600，等待拼图', data: cell(name, i) } : undefined,
     };
   });
 };
 
 export const params: Params = { columns: 3, perSheet: 9, fit: 'cover', caption: true, title: '可选颜色（示例）', wm: 'text', wmText: SAMPLE_WATERMARK, wmPosition: 'tile', wmOpacity: 30 };
-export const notice = { kind: 'ok' as const, text: '拼图会在所有图片读完后一次生成，保存在 /Users/demo/Downloads/SKU 规格图拼图加水印' };
+export const notice = { kind: 'ok' as const, text: '拼图会在所有图片读完后一次生成，保存在 ~/下载/SKU 规格图拼图加水印' };

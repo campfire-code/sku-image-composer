@@ -2,6 +2,7 @@
 import { LayoutGrid as LayoutGridAsIcon } from 'lucide-react';
 import type { BatchTool } from '../kit/types';
 import { composeAll, optionProblem, readOptions } from './flow';
+import { Empty, ResultBody, type CellData } from './ui';
 import { drawSheet, encodeCanvas, loadImage } from './render';
 
 const IMAGE_EXT = ['jpg', 'jpeg', 'png', 'webp', 'bmp', 'gif'];
@@ -15,6 +16,8 @@ const tool: BatchTool = {
   type: 'media',
   mode: 'batch',
   resultView: 'list',
+  Empty,
+  ResultBody,
   concurrency: 3,
   accept: { label: '规格图 / 色卡', extensions: IMAGE_EXT },
   params: [
@@ -23,7 +26,7 @@ const tool: BatchTool = {
     { key: 'cell', label: '每格边长', type: 'number', default: 600, min: 200, max: 1600, unit: '像素', help: '整张图太大（单边超过 16000 像素）时会提示' },
     { key: 'gap', label: '格间距', type: 'number', default: 24, min: 0, max: 120, unit: '像素' },
     { key: 'fit', label: '图片放进格子的方式', type: 'segment', options: [['contain', '完整显示'], ['cover', '裁成方块']], default: 'contain', help: '色卡建议「裁成方块」，规格图建议「完整显示」' },
-    { key: 'caption', label: '格子下面写文件名', type: 'toggle', default: true, help: '文件名去掉扩展名后写在图下方，所以先把文件改成「红色」「XL 码」这样的名字' },
+    { key: 'caption', label: '格子下面写文件名', type: 'toggle', default: true, help: '文件名去掉扩展名后写在图下方，所以先把文件改成「红色」「大码」这样的名字' },
     { key: 'title', label: '顶部标题', type: 'text', default: '', placeholder: '可选，例如：可选颜色' },
     { key: 'bg', label: '背景色', type: 'segment', options: [['#FFFFFF', '白色'], ['#F3F4F6', '浅灰'], ['#1F2024', '深色']], default: '#FFFFFF' },
     { key: 'wm', label: '水印', type: 'segment', options: [['none', '不加'], ['text', '文字'], ['image', '图片']], default: 'text' },
@@ -43,7 +46,9 @@ const tool: BatchTool = {
     const bad = optionProblem(readOptions(ctx.params));
     if (bad) throw new Error(bad);
     const img = await loadImage(await ctx.readFile(item.path!));
-    return { preview: item.path, summary: `${img.naturalWidth}×${img.naturalHeight}，等待拼图` };
+    const o = readOptions(ctx.params);
+    const data: CellData = { w: img.naturalWidth, h: img.naturalHeight, fit: o.fit, caption: o.caption, bg: o.bg, wm: o.wm, wmText: o.wmText, wmPosition: o.wmPosition, wmOpacity: o.wmOpacity };
+    return { preview: item.path, summary: `${img.naturalWidth}×${img.naturalHeight}，等待拼图`, data };
   },
 
   async afterAll(results, ctx) {
